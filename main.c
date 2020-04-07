@@ -82,9 +82,13 @@ int main(void) {
     setup();
     tx_data("\rhello world!\r");
     tx_data("abcdefghijklmnopqrstuvwxyz1234567890");
-    tim_delay_ms(2000);
+    //tim_delay_ms(2000);
     while(1)
     {
+        app_command();          // this function needs to be called periodically
+                                // to check if there is a new command from the app
+                                // and if there is this function will do something
+        
 //        test_motor();
         test_position();
     }
