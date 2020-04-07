@@ -75,14 +75,18 @@
 
 void setup();
 void test_motor(void);
+void test_position(void);
+
 
 int main(void) {
     setup();
     tx_data("\rhello world!\r");
     tx_data("abcdefghijklmnopqrstuvwxyz1234567890");
+    tim_delay_ms(2000);
     while(1)
     {
-        test_motor();
+//        test_motor();
+        test_position();
     }
     
     
@@ -128,4 +132,24 @@ void test_motor(void)
         motor_step50(MOTOR2, CCW, 1);   // motor 2 take one step CCW (1/50 of full revolution), takes 1*4 ms (change 1 to x to slow down to x*4 ms)
     }
     tim_delay_ms(500);                  // wait 500ms
+}
+
+void test_position(void)
+{
+    // NOTE - only MOTOR2 is working on the hardware side
+    
+//    //LEAD SCREW - Z
+//    motor_position(93,'Z');   //move 93 mm away from previous initial (CW)
+//    tim_delay_ms(500);
+//    motor_position(31,'Z');   //move 93-31 mm away from previous position (CCW))
+//    tim_delay_ms(500);
+//    motor_position(1,'Z');    //return to power on initial position
+//    tim_delay_ms(500);
+    
+    //PULLEY - X
+    motor_position(114,'X');
+    tim_delay_ms(5000);
+    motor_position(0,'X');
+    tim_delay_ms(5000);
+    
 }
