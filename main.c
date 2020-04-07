@@ -63,7 +63,7 @@
 #pragma config FVBUSIO2 =  ON
 #pragma config PGL1WAY =    ON
 #pragma config PMDL1WAY =   ON
-#pragma config IOL1WAY =    ON
+#pragma config IOL1WAY =    OFF
 #pragma config FUSBIDIO1 =   ON
 #pragma config FVBUSIO1 =  ON
 #pragma config PWMLOCK =  OFF
@@ -74,13 +74,15 @@
 #pragma config CSEQ =       0xffff
 
 void setup();
+void test_motor(void);
 
 int main(void) {
     setup();
-    
+    tx_data("\rhello world!\r");
+    tx_data("abcdefghijklmnopqrstuvwxyz1234567890");
     while(1)
     {
-        
+        test_motor();
     }
     
     
@@ -90,7 +92,7 @@ int main(void) {
 
 void setup()
 {
-    // single vector interrupts by default
+    INTCONbits.MVEC = 1;
     __builtin_mtc0(12,0,(__builtin_mfc0(12,0) | 0x0001)); // Global Interrupt Enable
     
     // by default analog capable pins are set to analog
@@ -105,4 +107,25 @@ void setup()
     tim_init();
     motor_init();
     uart_init();
+}
+
+void test_motor(void)
+{
+    // NOTE - only MOTOR2 is working on the hardware side
+    // the below will spin motor 2 clockwise one revolution (in 200ms)
+    // then wait 500ms
+    // spin counterclockwise one full revolution (in 200ms)
+    // then wait 500ms
+    int i = 0;
+    for(i=0; i<50; i++)                 // step 50 times clockwise (one full revolution)
+    {
+        motor_step50(MOTOR2, CW, 1);    // motor 2 take one step CW (1/50 of full revolution), takes 1*4 ms (change 1 to x to slow down to x*4 ms)
+    }
+    tim_delay_ms(500);                  // wait 500ms
+    
+    for(i=0; i<50; i++)                 // step 50 times counter clockwise (one full revolution)
+    {
+        motor_step50(MOTOR2, CCW, 1);   // motor 2 take one step CCW (1/50 of full revolution), takes 1*4 ms (change 1 to x to slow down to x*4 ms)
+    }
+    tim_delay_ms(500);                  // wait 500ms
 }
