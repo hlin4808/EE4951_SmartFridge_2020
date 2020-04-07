@@ -5,6 +5,7 @@
 #include <sys/attribs.h>
 #include "tim_lib.h"
 #include "motor_lib.h"
+#include "uart_lib.h"
 
 /*** DEVCFG0 ***/
 
@@ -89,6 +90,9 @@ int main(void) {
 
 void setup()
 {
+    // single vector interrupts by default
+    __builtin_mtc0(12,0,(__builtin_mfc0(12,0) | 0x0001)); // Global Interrupt Enable
+    
     // by default analog capable pins are set to analog
     // all the below ANSELx registers are set to 0 to set all pins to digital mode
     // ANSELD and ANSELF are only available on 100 pin devices so they are not needed
@@ -100,4 +104,5 @@ void setup()
     
     tim_init();
     motor_init();
+    uart_init();
 }
