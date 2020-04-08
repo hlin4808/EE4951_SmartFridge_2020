@@ -6,47 +6,6 @@
 #include "tim_lib.h"
 #include "motor_lib.h"
 
-#define M1PWMA  LATBbits.LATB15  //OC7
-#define M1PWMB  LATBbits.LATB0   //OC3
-#define M1AIN1  LATGbits.LATG8
-#define M1AIN2  LATGbits.LATG6
-#define M1BIN1  LATAbits.LATA12
-#define M1BIN2  LATAbits.LATA11
-
-#define M2PWMA  LATBbits.LATB4   //OC1
-#define M2PWMB  LATAbits.LATA8   //OC9
-#define M2AIN1  LATEbits.LATE12
-#define M2AIN2  LATEbits.LATE13
-#define M2BIN1  LATCbits.LATC2
-#define M2BIN2  LATCbits.LATC1
-
-#define M3PWMA  LATBbits.LATB7   //OC13
-#define M3PWMB  LATCbits.LATC15  //OC5
-#define M3AIN1  LATCbits.LATC7
-#define M3AIN2  LATCbits.LATC8
-#define M3BIN1  LATCbits.LATC10
-#define M3BIN2  LATDbits.LATD8
-
-#define M4PWMA  LATBbits.LATB13  //OC14
-#define M4PWMB  LATBbits.LATB9   //OC11
-#define M4AIN1  LATFbits.LATF1
-#define M4AIN2  LATBbits.LATB12
-#define M4BIN1  LATCbits.LATC9
-#define M4BIN2  LATDbits.LATD6
-
-#define MOTOR1  1
-#define MOTOR2  2
-#define MOTOR3  3
-#define MOTOR4  4
-
-#define CW      1
-#define CCW     2
-
-#define M_PHASE1  1
-#define M_PHASE2  2
-#define M_PHASE3  3
-#define M_PHASE4  4
-
 // sets all the PWM and IN pins to the driver IC as outputs
 // and initialize pins to output 0
 void motor_init(void)
@@ -137,23 +96,23 @@ void motor_step50(int motor_num, int dir, int delay)
     switch(dir)
     {
         case CW:
-            motor_set_phase(motor_num, PHASE1);
+            motor_set_phase(motor_num, M_PHASE1);
             tim_delay_ms(delay);
-            motor_set_phase(motor_num, PHASE2);
+            motor_set_phase(motor_num, M_PHASE2);
             tim_delay_ms(delay);
-            motor_set_phase(motor_num, PHASE3);
+            motor_set_phase(motor_num, M_PHASE3);
             tim_delay_ms(delay);
-            motor_set_phase(motor_num, PHASE4);
+            motor_set_phase(motor_num, M_PHASE4);
             tim_delay_ms(delay);
             break;
         case CCW:
-            motor_set_phase(motor_num, PHASE3);
+            motor_set_phase(motor_num, M_PHASE3);
             tim_delay_ms(delay);
-            motor_set_phase(motor_num, PHASE2);
+            motor_set_phase(motor_num, M_PHASE2);
             tim_delay_ms(delay);
-            motor_set_phase(motor_num, PHASE1);
+            motor_set_phase(motor_num, M_PHASE1);
             tim_delay_ms(delay);
-            motor_set_phase(motor_num, PHASE4);
+            motor_set_phase(motor_num, M_PHASE4);
             tim_delay_ms(delay);
             break;
         default:
