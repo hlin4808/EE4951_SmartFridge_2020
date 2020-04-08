@@ -44,15 +44,10 @@ extern "C" {
     #define M_PHASE2  2
     #define M_PHASE3  3
     #define M_PHASE4  4
-
     
-    volatile int z_position;
-    volatile int x_position;
-   
     void motor_init(void);
     void motor_step50(int motor_num, int dir, int delay);
     void motor_set_phase(int motor_num, int phase);
-    void motor_position(int x, char axis);
 
 #ifdef	__cplusplus
 }
