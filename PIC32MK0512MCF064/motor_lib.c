@@ -85,6 +85,9 @@ void motor_init(void)
     
     TRISDbits.TRISD6 = 0;
     M4BIN2 = 0;
+    
+    z_position = 0;
+    x_position = 0;
 }
 
 
@@ -252,5 +255,61 @@ void motor_set_phase(int motor_num, int phase)
             break;
         default:
             break;
+    }
+}
+ 
+void motor_position(int x, char axis)
+{
+    //int x: distance (IN MILLIMETERS) away from power-on initial position
+    //char axis: the axis that you want to control
+    
+    //PULLEY: use X_AXIS
+    //40 mm in one full rotation -> 40/50 = 0.8 mm
+    //max linear distance for x carriage w/ current frame is 180-56 = 124 mm
+    //for collision prevention only move a max of 114 mm from initial
+    
+    //LEAD SCREW: use Z_AXIS
+    //pitch: 1.5 mm in one full rotation-> 1.5/50 = 0.03 mm
+    //max distance w/ the current frame = 96 mm
+    //for collision prevention only move max of 93 mm from initial
+    
+    //TODO: Adjust motor_step50 calls when access to all motors at the same time is available
+    //TODO: Adjust boundary check on frame redesign
+    
+    int i,pos;   //pointer to value saved
+    
+    switch(axis)
+    {
+        case 'Z':
+            if(x > 93 || x < 0) break;     //z-max-distance away from initial (0) in mm
+            pos = x - abs(z_position);
+            z_position = pos;
+            pos = pos*(100/3);              //z-resolution modifier to input
+            break;
+        case 'X':
+            if(x > 114 || x < 0) break;    //x-max-distance away from initial (0) in mm
+            pos = x - abs(x_position);
+            x_position = pos;
+            pos = pos*(5/4)*-1;             //reverse direction to have all initial positions be relatively close together
+            break;
+        default: break;
+    }
+    if(pos > 0)
+    {
+        for(i=0; i<(abs(pos)); i++)      
+        {
+            motor_step50(MOTOR2, CW, 1);    // motor 2 take one step CW (1/50 of full revolution), takes 1*4 ms (change 1 to x to slow down to x*4 ms)
+        }
+    }
+    else if(pos < 0)
+    {
+        for(i=0; i<(abs(pos)); i++)
+        {
+            motor_step50(MOTOR2, CCW, 1);   // motor 2 take one step CW (1/50 of full revolution), takes 1*4 ms (change 1 to x to slow down to x*4 ms)
+        }
+    }
+    else
+    {
+        //throw boundary error and/or do nothing
     }
 }
