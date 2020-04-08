@@ -1,15 +1,10 @@
-/* 
- * File:   main_v01.c
- * Author: exehl
- *
- * Created on February 20, 2020, 10:59 AM
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <xc.h>
 #include <cp0defs.h>
 #include <sys/attribs.h>
+#include "tim_lib.h"
+#include "motor_lib.h"
 
 /*** DEVCFG0 ***/
 
@@ -77,8 +72,11 @@
 #pragma config TSEQ =       0x0000
 #pragma config CSEQ =       0xffff
 
-int main(void) {
+void setup();
 
+int main(void) {
+    setup();
+    
     while(1)
     {
         
@@ -87,4 +85,19 @@ int main(void) {
     
     while(1);   // never reach here, but have forever loop just in case
     return 0;
+}
+
+void setup()
+{
+    // by default analog capable pins are set to analog
+    // all the below ANSELx registers are set to 0 to set all pins to digital mode
+    // ANSELD and ANSELF are only available on 100 pin devices so they are not needed
+    ANSELA = 0;
+    ANSELB = 0;
+    ANSELC = 0;
+    ANSELE = 0;
+    ANSELG = 0;
+    
+    tim_init();
+    motor_init();
 }
