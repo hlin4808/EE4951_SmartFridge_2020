@@ -14,8 +14,10 @@ volatile int tx_tail = 0;
 volatile int tx_head = 0;
 volatile int rx_i = 0;
 volatile char rx_buff[RX_SIZE];
+volatile char command_buff[RX_SIZE];
 volatile char tx_buff[TX_SIZE];
-int tx_flag = 0;
+int tx_flag = 0;                        // for in progress transmissions
+int command_flag = 0;                   // did we receive a new command?
 
 // initialize UART1 and UART2
 // UART1 is a backup that is turned off right now
@@ -106,21 +108,91 @@ void tx_data(const char data[])
     }
 }
 
+
 // interrupt for when we receive data
 void __ISR(_UART2_RX_VECTOR, ipl4auto)U2RX_Interrupt(void)
 {
+    int i;
+    
     IFS1bits.U2RXIF = 0;
     
     rx_buff[rx_i] = U2RXREG;    // read UxRXREG
 
     if(rx_buff[rx_i] == '@')    // check for end character from app
-        rx_i = 0;
+    {
+        for(i = 0; i <= rx_i; i++)
+        {
+            command_buff[i] = rx_buff[i];   // copy received data into command buffer
+                                            // we do this so that we always have a complete command
+                                            // the receive buffer will have an incomplete command in the middle of receiving
+                                            // so not a good idea to look at rx_buff for commands
+        }
+        
+        command_flag = 1;       // new command received
+        rx_i = 0;               // reset receive buffer index for next command
+    }
     else if(++rx_i >= RX_SIZE)  // stay at last index if exceeding buffer size
         rx_i = RX_SIZE - 1;
 }
 
 
+// checks if new command is received from app
+// performs command if there is one
+// command is stored in command_buff where the first char is the command identifier, followed by the data, and the last char is always '@'
+// this function should be called at a set interval in main to periodically check for new commands
+void app_command(void)
+{
+    int month, day, year;
+    
+    if(command_flag)
+    {
+        // new command has been received
+        switch(command_buff[0])         // look at first char of received string for command identifier
+        {
+            case 'E':   // enter item into directory
+                // DO SOMETHING HERE
+                break;
+            
+            case 'R':   // request item from directory
+                // DO SOMETHING HERE
+                break;
+            
+            case 'V':   // view a list of fridge contents
+                // DO SOMETHING
+                break;
+            
+            case 'D':   // view a list of expiration dates for each food
+                // DO SOMETHING
+                break;
+            
+            case 'Z':   // app sending date
+                // since command_buff is type char we need to subtract '0' to get the correct int number due to ascii format
+                month = 10 * (command_buff[1] - '0');   // adds 10's digit
+                month +=  command_buff[2] - '0';        // adds 1's digit
+                
+                day = 10 * (command_buff[3] - '0');     // adds 10's digit
+                day +=  command_buff[4] - '0';          // adds 1's digit
+                
+                year = 1000 * (command_buff[5] - '0');  // adds 1000's digit
+                year +=  100 * (command_buff[6] - '0'); // adds 100's digit
+                year +=  10 * (command_buff[7] - '0');  // adds 10's digit
+                year +=  command_buff[8] - '0';         // adds 1's digit
+                
+                break;
+            
+            default:    // invalid command identifier
+                // do something? error message? or do nothing?
+                break;
+        }
+        
+        command_flag = 0;       // reset flag until new command received
+    }
+}
+
+
 /*
+// transmit data to app
+// interrupt not working so sending data using tx_data() function instead
 void __ISR(_UART2_TX_VECTOR, ipl3auto)U2TX_Interrupt(void)
 {
     IFS1bits.U2TXIF = 0;
