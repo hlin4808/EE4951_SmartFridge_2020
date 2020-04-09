@@ -1,0 +1,9 @@
+C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.csprojAssemblyReference.cache
+C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.Form1.resources
+C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.Properties.Resources.resources
+C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.csproj.GenerateResource.cache
+C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\bin\Debug\smartFridge_v02.exe.config
+C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\bin\Debug\smartFridge_v02.exe
+C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\bin\Debug\smartFridge_v02.pdb
+C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.exe
+C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.pdb
