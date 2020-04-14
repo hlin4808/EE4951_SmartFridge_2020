@@ -8,3 +8,14 @@ C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\bin\Debug\smartFridg
 C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.exe
 C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.pdb
 C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.csproj.ResolveComReference.cache
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\bin\Debug\smartFridge_v02.exe.config
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\bin\Debug\smartFridge_v02.exe
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\bin\Debug\smartFridge_v02.pdb
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.csprojAssemblyReference.cache
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.csproj.ResolveComReference.cache
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.Form1.resources
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.Properties.Resources.resources
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.csproj.GenerateResource.cache
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.csproj.CoreCompileInputs.cache
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.exe
+C:\Users\Kelli Schmidt\Source\Repos\hlin4808\EE4951_SmartFridge_2020\Visual_Basics_App\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.pdb

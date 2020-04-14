@@ -121,7 +121,7 @@ namespace smartFridge_v02
             Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
             Workbook excelBook;
             Worksheet excelSheet, excelSheet2;
-            excelBook = excelApp.Workbooks.Open(@"C:\Users\absal\Documents\testSheet2.xlsx");
+            excelBook = excelApp.Workbooks.Open(@"C:\testSheet2.xlsx");
             excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelBook.Worksheets.get_Item(1);
             excelSheet2 = (Microsoft.Office.Interop.Excel.Worksheet)excelBook.Worksheets.get_Item(2);
 
@@ -141,6 +141,11 @@ namespace smartFridge_v02
         private void writeToExcel(Worksheet sheetName, string entry)
         {
             sheetName.Cells[Globals.rowNumber, Globals.columnNumber] = entry;
+        }
+
+        private void tbAskForItem_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
