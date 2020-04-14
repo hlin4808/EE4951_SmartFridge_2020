@@ -8,6 +8,7 @@
 
 void tim_init(void)
 {
+    /********** timer 2 for 1us delays **********/
     T2CON = 0;              // deinit everything to defaults
     
     T2CONbits.TCS = 0;      // internal pheripheral clock is source (64MHz)
@@ -18,6 +19,18 @@ void tim_init(void)
     IFS0bits.T2IF = 0;      // reset timer2 interrupt flag
     
     T2CONbits.ON = 1;       // timer2 on
+    
+    
+    /********** timer 3 for OC2 **********/
+    T3CON = 0;                  // deinit everything to defaults
+    
+    T3CONbits.TCS = 0;          // internal pheripheral clock is source (64MHz)
+    T3CONbits.T32 = 0;          // 16 bit timer
+    T3CONbits.TCKPS = 0b101;    // prescaler of 32
+    TMR3 = 0;                   // reset timer count to 0
+    PR3 = 40000 - 1;            // timer counts to 20ms
+    
+    T3CONbits.ON = 1;           // timer3 on
 }
 
 
