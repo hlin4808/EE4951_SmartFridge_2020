@@ -7,3 +7,4 @@ C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\bin\Debug\smartFridg
 C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\bin\Debug\smartFridge_v02.pdb
 C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.exe
 C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.pdb
+C:\Users\absal\source\repos\smartFridge_v02\smartFridge_v02\obj\Debug\smartFridge_v02.csproj.ResolveComReference.cache

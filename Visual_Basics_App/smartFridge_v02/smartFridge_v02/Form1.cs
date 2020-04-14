@@ -8,24 +8,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Office.Interop.Excel;
 
 namespace smartFridge_v02
 {
     public partial class Form1 : Form
     {
+
+        public static class Globals
+        {
+            public static int rowNumber = 8;
+            public static int columnNumber = 1;
+        }
         public Form1()
         {
             InitializeComponent();
-            if (!serialPort1.IsOpen)
-            {
-                tbMessages.Text = "nothing located in port";
-                serialPort1.Open();
-                tbMessages.Text = "port opened";
-            }
-            else
-            {
-                tbMessages.Text = "port is busy rn";
-            }
+            //if (!serialPort1.IsOpen)
+            //{
+            //    tbMessages.Text = "nothing located in port";
+            //    serialPort1.Open();
+            //    tbMessages.Text = "port opened";
+            //}
+            //else
+            //{
+            //    tbMessages.Text = "port is busy rn";
+            //}
+
+            // Open up an excel file next
+            Object oExcel = new Object();
+
 
         }
 
@@ -40,6 +51,12 @@ namespace smartFridge_v02
         {
             tbMessages.Clear();
             tbMessages.AppendText(rxString);
+        }
+
+        private void writeText(string str)
+        {
+            tbMessages.Clear();
+            tbMessages.AppendText(str);
         }
 
         private void buttonAskForItem_Click(object sender, EventArgs e)
@@ -93,10 +110,37 @@ namespace smartFridge_v02
             calForm.ShowDialog();
             tbMessages.Clear();
             tbMessages.AppendText(mCal.SelectionStart.ToString("yyyyMMdd"));    //Shows date in message box
-            serialPort1.Write("Z");
-            serialPort1.Write(mCal.SelectionStart.ToString("yyyyMMdd"));
+            //serialPort1.Write("Z");
+           // serialPort1.Write(mCal.SelectionStart.ToString("yyyyMMdd"));
             calForm.Close();
             
+        }
+
+        private void bOpenVB_Click(object sender, EventArgs e)
+        {
+            Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+            Workbook excelBook;
+            Worksheet excelSheet, excelSheet2;
+            excelBook = excelApp.Workbooks.Open(@"C:\Users\absal\Documents\testSheet2.xlsx");
+            excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelBook.Worksheets.get_Item(1);
+            excelSheet2 = (Microsoft.Office.Interop.Excel.Worksheet)excelBook.Worksheets.get_Item(2);
+
+            writeText(excelSheet.get_Range("A2", "A2").Value2.ToString());
+
+            string entry = "test this";
+            excelSheet.Cells[Globals.rowNumber, Globals.columnNumber] = entry;
+            excelSheet2.Cells[Globals.rowNumber, Globals.columnNumber] = entry;
+            //tbMessages.Clear();
+            //tbMessages.AppendText(excelSheet.get_Range("A2", "A2").Value2.ToString());
+
+            excelBook.Close(true);
+            excelApp.Quit();
+        }
+
+        // This function assumes that the sheet is already open
+        private void writeToExcel(Worksheet sheetName, string entry)
+        {
+            sheetName.Cells[Globals.rowNumber, Globals.columnNumber] = entry;
         }
     }
 }
