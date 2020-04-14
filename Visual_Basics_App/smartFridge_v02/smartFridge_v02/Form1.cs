@@ -127,7 +127,7 @@ namespace smartFridge_v02
 
             writeText(excelSheet.get_Range("A2", "A2").Value2.ToString());
 
-            string entry = "test this";
+            string entry = "testing testing";
             excelSheet.Cells[Globals.rowNumber, Globals.columnNumber] = entry;
             excelSheet2.Cells[Globals.rowNumber, Globals.columnNumber] = entry;
             //tbMessages.Clear();
