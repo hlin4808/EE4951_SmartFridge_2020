@@ -6,6 +6,7 @@
 #include "tim_lib.h"
 #include "motor_lib.h"
 #include "uart_lib.h"
+#include "servo_lib.h"
 
 /*** DEVCFG0 ***/
 
@@ -80,8 +81,8 @@ void test_position(void);
 
 int main(void) {
     setup();
-    tx_data("\rhello world!\r");
-    tx_data("abcdefghijklmnopqrstuvwxyz1234567890");
+//    tx_data("\rhello world!\r");
+//    tx_data("abcdefghijklmnopqrstuvwxyz1234567890");
     //tim_delay_ms(2000);
     while(1)
     {
@@ -90,7 +91,10 @@ int main(void) {
                                 // and if there is this function will do something
         
 //        test_motor();
-        test_position();
+//        test_position();
+        
+        servo_setCompare(2000);     // TEST ME - try using values between 2000 to 4000 first
+                                    // then expand to a larger range and observe how servo behaves
     }
     
     
@@ -115,6 +119,7 @@ void setup()
     tim_init();
     motor_init();
     uart_init();
+    servo_init();
 }
 
 void test_motor(void)
