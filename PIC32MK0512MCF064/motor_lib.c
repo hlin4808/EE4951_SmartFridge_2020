@@ -86,7 +86,7 @@ void motor_init(void)
     TRISDbits.TRISD6 = 0;
     M4BIN2 = 0;
     
-    z_position = 0;
+    y_position = 0;
     x_position = 0;
 }
 
@@ -268,7 +268,7 @@ void motor_position(int x, char axis)
     //max linear distance for x carriage w/ current frame is 180-56 = 124 mm
     //for collision prevention only move a max of 114 mm from initial
     
-    //LEAD SCREW: use Z_AXIS
+    //LEAD SCREW: use Y_AXIS
     //pitch: 1.5 mm in one full rotation-> 1.5/50 = 0.03 mm
     //max distance w/ the current frame = 96 mm
     //for collision prevention only move max of 93 mm from initial
@@ -280,11 +280,11 @@ void motor_position(int x, char axis)
     
     switch(axis)
     {
-        case 'Z':
-            if(x > 93 || x < 0) break;     //z-max-distance away from initial (0) in mm
-            pos = x - abs(z_position);
-            z_position = pos;
-            pos = pos*(100/3);              //z-resolution modifier to input
+        case 'Y':
+            if(x > 93 || x < 0) break;     //y-max-distance away from initial (0) in mm
+            pos = x - abs(y_position);
+            y_position = pos;
+            pos = pos*(100/3);              //y-resolution modifier to input
             break;
         case 'X':
             if(x > 114 || x < 0) break;    //x-max-distance away from initial (0) in mm
