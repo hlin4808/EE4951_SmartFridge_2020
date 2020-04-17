@@ -46,7 +46,7 @@ extern "C" {
     #define M_PHASE4  4
 
     
-    volatile int z_position;
+    volatile int y_position;
     volatile int x_position;
    
     void motor_init(void);
@@ -59,3 +59,4 @@ extern "C" {
 #endif
 
 #endif	/* MOTOR_LIB_H */
+
