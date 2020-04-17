@@ -15,6 +15,7 @@ extern "C" {
     void uart_init();
     void tx_data(const char data[]);
     void app_command(void);
+    void app_move(void);
     
     // below are example functions from https://www.digikey.com/eewiki/display/microcontroller/Getting+Started+with+the+PIC32+and+MPLAB+X#GettingStartedwiththePIC32andMPLABX-UARTConfiguration
     void SendChar(char c);
@@ -26,3 +27,4 @@ extern "C" {
 #endif
 
 #endif	/* UART_LIB_H */
+
