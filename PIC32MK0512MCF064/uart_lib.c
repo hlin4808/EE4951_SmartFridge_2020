@@ -16,8 +16,11 @@ volatile int rx_i = 0;
 volatile char rx_buff[RX_SIZE];
 volatile char command_buff[RX_SIZE];
 volatile char tx_buff[TX_SIZE];
-int tx_flag = 0;                        // for in progress transmissions
-int command_flag = 0;                   // did we receive a new command?
+volatile int tx_flag = 0;                        // for in progress transmissions
+volatile int command_flag = 0;                   // did we receive a new command from app?
+volatile int posX, posY, posZ;                   // coordinates from app for boxes
+volatile int move_flag = 0;                      // perform movement on next motor in sequence
+volatile int move_seq = 0;                       // keeps track of which motor to move next in sequence
 
 // initialize UART1 and UART2
 // UART1 is a backup that is turned off right now
@@ -141,43 +144,24 @@ void __ISR(_UART2_RX_VECTOR, ipl4auto)U2RX_Interrupt(void)
 // command is stored in command_buff where the first char is the command identifier, followed by the data, and the last char is always '@'
 // this function should be called at a set interval in main to periodically check for new commands
 void app_command(void)
-{
-    int month, day, year;
-    
-    if(command_flag)
+{   
+    if(command_flag)    // new command has been received
     {
-        // new command has been received
         switch(command_buff[0])         // look at first char of received string for command identifier
         {
-            case 'E':   // enter item into directory
-                // DO SOMETHING HERE
+            case 'P':   // position is in format "Pxyz@"
+                // command_buff is type char so need to subtract '0'
+                // to save coordinates as type int, due to ascii format
+                posX = command_buff[1] - '0';
+                posY = command_buff[2] - '0';
+                posZ = command_buff[3] - '0';
+                move_seq = 0;
+                move_flag = 1;
                 break;
             
-            case 'R':   // request item from directory
-                // DO SOMETHING HERE
-                break;
-            
-            case 'V':   // view a list of fridge contents
-                // DO SOMETHING
-                break;
-            
-            case 'D':   // view a list of expiration dates for each food
-                // DO SOMETHING
-                break;
-            
-            case 'Z':   // app sending date
-                // since command_buff is type char we need to subtract '0' to get the correct int number due to ascii format
-                month = 10 * (command_buff[1] - '0');   // adds 10's digit
-                month +=  command_buff[2] - '0';        // adds 1's digit
-                
-                day = 10 * (command_buff[3] - '0');     // adds 10's digit
-                day +=  command_buff[4] - '0';          // adds 1's digit
-                
-                year = 1000 * (command_buff[5] - '0');  // adds 1000's digit
-                year +=  100 * (command_buff[6] - '0'); // adds 100's digit
-                year +=  10 * (command_buff[7] - '0');  // adds 10's digit
-                year +=  command_buff[8] - '0';         // adds 1's digit
-                
+            case 'C':   // FOR DEMO PROTOTYPE: continue to next step in movement
+                        // this is needed because we need to swap motors for each axis of movement
+                move_flag = 1;  // command to do next step in movement sequence
                 break;
             
             default:    // invalid command identifier
@@ -186,6 +170,48 @@ void app_command(void)
         }
         
         command_flag = 0;       // reset flag until new command received
+    }
+}
+
+
+// This function needs to be called periodically in main
+// Will move the forklift to the specified coordinates from app
+// This function waits in between each step in our movement sequence until the app sends a continue command
+// This is because the first prototype board needs to swap motors in between each axis of movement
+// Microcontroller sends back a ready for next step message to app when one step is finished
+void app_move(void)
+{
+    if(move_flag)
+    {
+        switch(move_seq)
+        {
+            case 0:
+                tx_data("Ready to move X!");
+                move_seq++;
+                break;
+            case 1:
+                motor_position((posX * 10),'X');    // increment left - right movement
+                tx_data("Ready to move Y!");
+                move_seq++;
+                break;
+            case 2:
+                motor_position((posY * 10),'Y');    // increment up - down movement
+                tx_data("Ready to move Servo!");
+                move_seq++;
+                break;
+            case 3:
+                servo_setCompare(4000);     // extend servo
+                tim_delay_ms(1000);         // wait 1 sec
+                servo_setCompare(2000);     // retract servo
+                tim_delay_ms(1000);         // wait 1 sec
+                tx_data("Done!");
+                move_seq++; // last sequence, but will increment so we go to default case next
+                break;
+            default:
+                tx_data("NO MOVEMENT");
+                break;
+        }
+        move_flag = 0;
     }
 }
 
