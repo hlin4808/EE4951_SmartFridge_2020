@@ -3,7 +3,6 @@
 #include <xc.h>
 #include <cp0defs.h>
 #include <sys/attribs.h>
-#include <proc/PIC32MK-MC/p32mk0512mcf064.h>
 #include "tim_lib.h"
 #include "uart_lib.h"   // contains the unlock and lock macros
 
