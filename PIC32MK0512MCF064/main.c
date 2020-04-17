@@ -90,6 +90,9 @@ int main(void) {
                                 // to check if there is a new command from the app
                                 // and if there is this function will do something
         
+        app_move();             // this function needs to be called periodically
+                                // to check if ready for next forklift movement in sequence
+        
 //        test_motor();
 //        test_position();
         
@@ -147,12 +150,12 @@ void test_position(void)
 {
     // NOTE - only MOTOR2 is working on the hardware side
     
-//    //LEAD SCREW - Z
-//    motor_position(93,'Z');   //move 93 mm away from previous initial (CW)
+//    //LEAD SCREW - Y
+//    motor_position(93,'Y');   //move 93 mm away from previous initial (CW)
 //    tim_delay_ms(500);
-//    motor_position(31,'Z');   //move 93-31 mm away from previous position (CCW))
+//    motor_position(31,'Y');   //move 93-31 mm away from previous position (CCW))
 //    tim_delay_ms(500);
-//    motor_position(1,'Z');    //return to power on initial position
+//    motor_position(1,'Y');    //return to power on initial position
 //    tim_delay_ms(500);
     
     //PULLEY - X
