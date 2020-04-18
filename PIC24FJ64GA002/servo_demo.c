@@ -126,7 +126,7 @@ void __attribute__((interrupt, auto_psv)) _IC1Interrupt()
     if(newPeriod > 125) //longer than 2ms
     {
         servo_pos++;        // change between 1 (extend) and 0 (retract)
-        servo_pos %= 1;
+        servo_pos %= 2;
         
         TMR2 = 0;
         overflow = 0;
