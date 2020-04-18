@@ -29,9 +29,9 @@
 
 #pragma config FNOSC =      SPLL            // choose PLL for SYSCLK
 #pragma config DMTINTV =    WIN_127_128
-#pragma config FSOSCEN =    ON
+#pragma config FSOSCEN =    OFF
 #pragma config IESO =       ON
-#pragma config POSCMOD =    EC
+#pragma config POSCMOD =    OFF
 #pragma config OSCIOFNC =   OFF
 #pragma config FCKSM =      CSECME
 #pragma config WDTPS =      PS1048576
@@ -43,7 +43,7 @@
 #pragma config FDMTEN =     OFF
 /*** DEVCFG2 ***/
 
-#pragma config FPLLRNG =    RANGE_8_16_MHZ
+#pragma config FPLLRNG =    RANGE_5_10_MHZ
 #pragma config FPLLICLK =   PLL_FRC         // PLL source is 8MHz FRC
 #pragma config FPLLIDIV =   DIV_1           // PLL divide by 1
 #pragma config FPLLMULT =   MUL_16          // PLL multiply by 16
