@@ -77,27 +77,25 @@
 void setup();
 void test_motor(void);
 void test_position(void);
+void test_servo(void);
 
 
 int main(void) {
     setup();
-//    tx_data("\rhello world!\r");
-//    tx_data("abcdefghijklmnopqrstuvwxyz1234567890");
-    //tim_delay_ms(2000);
     while(1)
     {
         app_command();          // this function needs to be called periodically
                                 // to check if there is a new command from the app
                                 // and if there is this function will do something
+                                // if no new command, then this function does nothing and we pass through
         
         app_move();             // this function needs to be called periodically
                                 // to check if ready for next forklift movement in sequence
+                                // if no ready signal, then this function does nothing and we pass through
         
 //        test_motor();
 //        test_position();
-        
-        servo_setCompare(2000);     // TEST ME - try using values between 2000 to 4000 first
-                                    // then expand to a larger range and observe how servo behaves
+        test_servo();
     }
     
     
@@ -164,4 +162,12 @@ void test_position(void)
     motor_position(0,'X');
     tim_delay_ms(5000);
     
+}
+
+void test_servo(void)
+{
+    servo_ext_ret(SERVO_EXT);   // move extend
+    tim_delay_ms(1000);         // wait 1 sec
+    servo_ext_ret(SERVO_RET);   // move retract
+    tim_delay_ms(1000);         // wait 1 sec
 }
