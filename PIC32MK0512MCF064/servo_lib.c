@@ -3,6 +3,7 @@
 #include <xc.h>
 #include <cp0defs.h>
 #include <sys/attribs.h>
+#include "servo_lib.h"
 #include "tim_lib.h"
 #include "uart_lib.h"   // contains the unlock and lock macros
 
@@ -48,4 +49,23 @@ void servo_setCompare(int val)
     // TENTATIVE range of servo is 2000 < val < 4000
     
     OC2RS = val;
+}
+
+void servo_ext_ret(int dir)
+{
+    switch(dir)
+    {
+        case SERVO_EXT:
+            servo_setCompare(4000);     // move extend
+            tim_delay_ms(250);
+            servo_setCompare(3000);     // stop moving
+            break;
+        case SERVO_RET:
+            servo_setCompare(2000);     // move retract
+            tim_delay_ms(250);
+            servo_setCompare(3000);     // stop moving
+            break;
+        default:
+            break;
+    }
 }
