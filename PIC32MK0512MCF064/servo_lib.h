@@ -5,8 +5,12 @@
 extern "C" {
 #endif
 
+    #define SERVO_EXT   1
+    #define SERVO_RET   0
+    
     void servo_init(void);
     void servo_setCompare(int val);
+    void servo_ext_ret(int dir);
 
 #ifdef __cplusplus
 }
