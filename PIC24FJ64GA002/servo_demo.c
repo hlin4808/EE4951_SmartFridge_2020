@@ -1,4 +1,5 @@
 #include "xc.h"
+#include "linx0405_lab2b_asmLib_v01.h"
 
 // CW1: FLASH CONFIGURATION WORD 1 (see PIC24 Family Reference Manual 24.1)
 #pragma config ICS = PGx1          // Comm Channel Select (Emulator EMUC1/EMUD1 pins are shared with PGC1/PGD1)
@@ -22,9 +23,11 @@ void setServo(int Val);
 void initButton(void);
 void __attribute__((interrupt, auto_psv)) _T2Interrupt();
 void __attribute__((interrupt, auto_psv)) _IC1Interrupt();
+void delay(int x);
 
 volatile long int overflow;
 volatile int period_index = 0;
+volatile int flagalicious = 0;  // the most delicious flag yum yum
 
 volatile int servo_pos;     // 1 = extend, 0 = retract
 
@@ -36,11 +39,36 @@ int main(void) {
     while(1)
     {
         if(servo_pos)
-            setServo(4000);     // extend
+        {
+            if(flagalicious)
+            {
+                setServo(4000);     // extend
+                delay(500);         // in ms
+                setServo(0);
+                flagalicious = 0;
+            }
+        }
         else
-            setServo(2000);     // retract
+        {
+            if(flagalicious)
+            {
+                setServo(2000);     // retract
+                delay(500);         // in ms
+                setServo(0);
+                flagalicious = 0;
+            }
+        }
     }
     return 0;
+}
+
+void delay(int x)
+{
+    int i;
+    for(i=0; i<x; i++)
+    {
+        wait_1ms();
+    }
 }
 
 void setup(void)
@@ -127,6 +155,7 @@ void __attribute__((interrupt, auto_psv)) _IC1Interrupt()
     {
         servo_pos++;        // change between 1 (extend) and 0 (retract)
         servo_pos %= 2;
+        flagalicious = 1;   // mmmm so tasty!
         
         TMR2 = 0;
         overflow = 0;
