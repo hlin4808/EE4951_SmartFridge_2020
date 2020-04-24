@@ -4,6 +4,7 @@
 #include <cp0defs.h>
 #include <sys/attribs.h>
 #include "uart_lib.h"
+#include "servo_lib.h"
 
 // strings from app formats
 // R for retrieve from fridge
@@ -200,9 +201,9 @@ void app_move(void)
                 move_seq++;
                 break;
             case 3:
-                servo_setCompare(4000);     // extend servo
+                servo_ext_ret(SERVO_EXT);   // extend servo
                 tim_delay_ms(1000);         // wait 1 sec
-                servo_setCompare(2000);     // retract servo
+                servo_ext_ret(SERVO_RET);   // retract servo
                 tim_delay_ms(1000);         // wait 1 sec
                 tx_data("Done!");
                 move_seq++; // last sequence, but will increment so we go to default case next
